@@ -193,6 +193,43 @@ function displaySearchResults(quotes, tag) {
     }
 }
 
+
+// Display a randomly selected quote
+function displayRandomQuote() {
+    fetch(`${apiBaseUrl}/quotes`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(quotes => {
+            if (quotes.length > 0) {
+                // Select a random quote
+                const randomIndex = Math.floor(Math.random() * quotes.length);
+                const randomQuote = quotes[randomIndex];
+                const quoteHtml = `
+                    <div class="random-quote">
+                        <p><strong>Quote:</strong> "${randomQuote.text}"</p>
+                        <p><strong>Author:</strong> ${randomQuote.author || 'Unknown'}</p>
+                        <p><strong>Tags:</strong> ${randomQuote.tagAssignments.map(ta => ta.tag.name).join(', ')}</p>
+                        <p><strong>Likes:</strong> ${randomQuote.likes}</p>
+                    </div>`;
+                document.getElementById('randomQuoteContainer').innerHTML = quoteHtml;
+            } else {
+                document.getElementById('randomQuoteContainer').innerHTML = `<p>No quotes available to display.</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching random quote:', error);
+            document.getElementById('randomQuoteContainer').innerHTML = `Error: ${error.message}`;
+        });
+}
+
+// Ensure this event listener is tied to your 'Show Random Quote' button:
+document.getElementById('randomQuoteButton').addEventListener('click', displayRandomQuote);
+
+
 // Add event listener to the search button instead of inline onclick attribute
 document.getElementById('tagSearchForm').addEventListener('submit', function(event) {
     event.preventDefault();
