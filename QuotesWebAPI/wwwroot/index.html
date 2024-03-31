@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes SPA</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Quotes Management SPA</h1>
+    <p>Quotes Management SPA is a Single Page Application (SPA) that allows you to manage quotes.</p>
+
+    <!-- Add New Quote Form -->
+    <h2>Add New Quote</h2>
+    <form id="addQuoteForm">
+        <ul id="searchResults"></ul>
+        <input type="text" id="newQuoteText" placeholder="Quote text" required>
+        <input type="text" id="newQuoteAuthor" placeholder="Author">
+        <!-- New input for tags -->
+        <input type="text" id="quoteTags" placeholder="Enter tags separated by commas">
+        <button type="submit">Add Quote</button>
+    </form>
+
+    <!-- Tag Search Form -->
+    <form id="tagSearchForm">
+        <input type="text" id="searchTags" placeholder="Search tags">
+        <input type="button" value="Search" onclick="searchQuotesByTag()">
+    </form>
+    <!-- Search Results -->
+    <div id="searchResults"></div>
+
+    <!-- Display Quotes -->
+    <h2>Quotes</h2>
+    <ul id="quotes-list"></ul>
+
+    <!-- Display Tags -->
+    <h2>Tags</h2>
+    <ul id="tags-list"></ul>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

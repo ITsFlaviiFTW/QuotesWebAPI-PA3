@@ -1,0 +1,22 @@
+﻿.quote-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.quote-tags {
+    font-weight: bold;
+}
+
+.quote-text {
+    margin: 5px 0;
+}
+
+.quote-author {
+    font-style: italic;
+}
+
+.quote-actions button {
+    margin-right: 5px;
+}
