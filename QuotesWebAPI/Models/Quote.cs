@@ -5,6 +5,7 @@ namespace QuotesWebAPI.Models
 {
     public class Quote
     {
+        // This class is used to define the structure of the Quote object
         public int Id { get; set; }
         [Required]
         public string Text { get; set; }

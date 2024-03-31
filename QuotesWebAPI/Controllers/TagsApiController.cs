@@ -15,6 +15,7 @@ public class TagsApiController : ControllerBase
     }
 
     // GET: api/tags
+    // this function is used to get all tags
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Tag>>> GetTags()
     {
@@ -22,6 +23,7 @@ public class TagsApiController : ControllerBase
     }
 
     // GET: api/tags/5
+    // this function is used to get a tag by its id
     [HttpGet("{id}")]
     public async Task<ActionResult<Tag>> GetTag(int id)
     {
@@ -36,16 +38,18 @@ public class TagsApiController : ControllerBase
     }
 
     // POST: api/tags
+    // this function is used to add a new tag
     [HttpPost]
     public async Task<ActionResult<Tag>> PostTag(Tag tag)
     {
         _context.Tags.Add(tag);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetTag), new { id = tag.Id }, tag);
+        return CreatedAtAction(nameof(GetTag), new { id = tag.Id }, tag); // Return the newly created tag
     }
 
     // PUT: api/tags/5
+    // this function is used to update a tag by its id
     [HttpPut("{id}")]
     public async Task<IActionResult> PutTag(int id, Tag tag)
     {
@@ -54,7 +58,7 @@ public class TagsApiController : ControllerBase
             return BadRequest();
         }
 
-        _context.Entry(tag).State = EntityState.Modified;
+        _context.Entry(tag).State = EntityState.Modified; // Mark the entity as modified
 
         try
         {
@@ -76,6 +80,7 @@ public class TagsApiController : ControllerBase
     }
 
     // DELETE: api/tags/5
+    // this function is used to delete a tag by its id
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTag(int id)
     {

@@ -17,6 +17,7 @@ public class QuotesApiController : ControllerBase
     }
 
     // GET: quotes
+    // this function is used to get all quotes
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Quote>>> GetQuotes()
     {
@@ -29,6 +30,7 @@ public class QuotesApiController : ControllerBase
     }
 
     // POST: api/quotes
+    // this function is used to add a new quote
     [HttpPost]
     public async Task<ActionResult<Quote>> PostQuote(QuoteDto QuoteDto)
     {
@@ -61,6 +63,7 @@ public class QuotesApiController : ControllerBase
 
 
     // GET: quotes/5
+    // this function is used to get a quote by its id
     [HttpGet("{id}")]
     public async Task<ActionResult<Quote>> GetQuote(int id)
     {
@@ -90,7 +93,7 @@ public class QuotesApiController : ControllerBase
 
         quote.Text = quoteDto.Text;
         quote.Author = quoteDto.Author; // Make sure to handle if Author can be null
-                                        // Don't update Likes here, as they should be handled by a separate method
+                                        // Likes should not be updated here, will be handled by another endpoint
 
         try
         {
@@ -109,11 +112,12 @@ public class QuotesApiController : ControllerBase
             }
         }
 
-        return NoContent(); // Or return Ok(quote) if you want to send back the updated quote
+        return NoContent(); // Or return Ok(quote) if I want to send back the updated quote
     }
 
 
     // DELETE: api/quotes/5
+    // this function is used to delete a quote by its id
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteQuote(int id)
     {
@@ -134,6 +138,7 @@ public class QuotesApiController : ControllerBase
         _context.Quotes.Any(e => e.Id == id);
 
     // POST: api/quotes/5/tags
+    // this function is used to add a tag to a quote
     [HttpPost("{quoteId}/tags")]
     public async Task<ActionResult<Tag>> PostTag(int quoteId, Tag tag)
     {
@@ -155,11 +160,12 @@ public class QuotesApiController : ControllerBase
         var tagAssignment = new TagAssignment { QuoteId = quoteId, TagId = existingTag.Id };
         _context.TagAssignments.Add(tagAssignment);
         await _context.SaveChangesAsync();
-
+        // Return the created tag
         return CreatedAtAction(nameof(GetTagsByQuoteId), new { id = existingTag.Id }, existingTag);
     }
 
     // GET: api/quotes/5/tags
+    // this function is used to get all tags of a quote
     [HttpGet("{quoteId}/tags")]
     public async Task<ActionResult<IEnumerable<Tag>>> GetTagsByQuoteId(int quoteId)
     {
@@ -177,6 +183,7 @@ public class QuotesApiController : ControllerBase
     }
 
     // POST: api/quotes/5/like
+    // this function is used to like a specific quote, technically they all are specific quotes, but you get the idea
     [HttpPost("{id}/like")]
     public async Task<IActionResult> LikeQuote(int id)
     {
@@ -193,9 +200,11 @@ public class QuotesApiController : ControllerBase
     }
 
     // GET: api/quotes/bytag/{tagName}
+    // this function is used to get all quotes by a specific tag
     [HttpGet("bytag/{tagName}")]
     public async Task<ActionResult<IEnumerable<Quote>>> GetQuotesByTagName(string tagName)
     {
+        // Get the tag with the given name
         var tag = await _context.Tags.Include(t => t.TagAssignments)
                       .ThenInclude(ta => ta.Quote)
                       .SingleOrDefaultAsync(t => t.Name == tagName);
@@ -204,7 +213,7 @@ public class QuotesApiController : ControllerBase
         {
             return NotFound();
         }
-
+        // Get all quotes associated with the tag
         var quotes = tag.TagAssignments.Select(ta => ta.Quote);
         return Ok(quotes);
     }

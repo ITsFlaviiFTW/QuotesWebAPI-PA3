@@ -110,6 +110,7 @@ function startEditQuote(quoteId) {
             const newTags = prompt('Enter the new tags:', existingTags);
             const tags = newTags.split(',').map(tag => tag.trim());
 
+            // Ensure the user entered new text, author, and tags
             if (newText !== null && newAuthor !== null && newTags !== null) {
                 const updatePayload = { text: newText, author: newAuthor, tags };
 
@@ -133,7 +134,7 @@ function startEditQuote(quoteId) {
         })
         .catch(error => console.error('Error fetching quote:', error));
 }
-
+// Update the quote in the DOM after editing
 function updateQuoteInDOM(quoteId, newText, newAuthor, tags) {
     // This function would handle updating the DOM elements for the quote
     const quoteElement = document.getElementById(`quote-${quoteId}`);
@@ -151,7 +152,7 @@ function fetchTags() {
     fetch(`${apiBaseUrl}/tags`)
         .then(response => response.json())
         .then(data => {
-            const tagsList = document.getElementById('tags-list'); // Ensure you have a corresponding element in your HTML
+            const tagsList = document.getElementById('tags-list'); // TO DO: Ensure there is corresponding element in HTML code
             tagsList.innerHTML = data.map(tag => `<li>${tag.name}</li>`).join('');
         })
         .catch(error => console.error('Error fetching tags:', error));
@@ -165,6 +166,7 @@ function searchQuotesByTag() {
         alert('Please enter a tag to search.');
         return;
     }
+    // Fetch quotes by tag
     fetch(`${apiBaseUrl}/quotes/bytag/${encodeURIComponent(tag)}`)
         .then(response => {
             if (!response.ok) {
@@ -203,6 +205,7 @@ function displayRandomQuote() {
             }
             return response.json();
         })
+        // Display a random quote
         .then(quotes => {
             if (quotes.length > 0) {
                 // Select a random quote

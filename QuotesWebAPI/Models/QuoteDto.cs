@@ -2,6 +2,7 @@
 
 namespace QuotesWebAPI.Models
 {
+    // This class is used to define the structure of the QuoteDto object
     public class QuoteDto
     {
         [Required]
